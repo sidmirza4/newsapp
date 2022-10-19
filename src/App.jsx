@@ -1,21 +1,9 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import {
-	Container,
-	Heading,
-	HStack,
-	IconButton,
-	Spacer,
-	Tab,
-	TabPanels,
-	TabPanel,
-	TabList,
-} from "@chakra-ui/react";
+import { Container, Heading, Spacer } from "@chakra-ui/react";
 
-import TopNews from "../components/TopNews";
-import Footer from "../components/Footer";
-import Search from "../components/Search";
-import ScrollToTop from "../components/ScrollToTop";
-import Tabs from "../components/Tabs";
+import Footer from "./components/Footer";
+import ScrollToTop from "./components/ScrollToTop";
+import Tabs from "./components/Tabs";
 import "./index.css";
 
 const queryClient = new QueryClient();
