@@ -2,6 +2,8 @@
 
 A simple news app to search for a news or to check top news by country.
 
+![](preview.gif)
+
 ## Run the app locally
 
 - Clone the app locally using `git clone https://github.com/sidmirza4/newsapp.git`.
