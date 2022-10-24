@@ -16,3 +16,8 @@ export const getFormattedDate = (date) => {
 
 	return `${day} ${month} ${year} at ${time}`;
 };
+
+export const getDefaultCountry = () => {
+	const country = window.navigator.language.split("-")[1];
+	return country ? country : "US";
+};

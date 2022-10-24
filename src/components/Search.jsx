@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
 	Box,
 	Input,
@@ -9,11 +9,14 @@ import {
 	Text,
 	Heading,
 } from "@chakra-ui/react";
+import { useDispatch, useSelector } from "react-redux";
 import { SearchIcon } from "@chakra-ui/icons";
+
 import News from "./News";
-import { useSearchResults } from "../api";
+import { getSearchResults } from "../store/newsSlice";
 
 const Search = () => {
+	const dispatch = useDispatch();
 	const [search, setSearch] = React.useState("");
 	const inputRef = React.useRef(null);
 
@@ -21,6 +24,11 @@ const Search = () => {
 		e.preventDefault();
 		setSearch(inputRef.current.value);
 	};
+
+	useEffect(() => {
+		if (!search) return;
+		dispatch(getSearchResults(search));
+	}, [search]);
 
 	return (
 		<Box mt={12}>
@@ -46,20 +54,19 @@ const Search = () => {
 
 const SearchResults = ({ search }) => {
 	if (!search) return null;
-	const { data, isLoading, isError } = useSearchResults(search);
+	const { isSearchResultsLoading, searchResultsError, searchResults } =
+		useSelector((state) => state.news);
 
-	console.log(data);
-
-	if (isLoading)
+	if (isSearchResultsLoading)
 		return (
 			<Box textAlign="center" mt={12}>
 				<CircularProgress isIndeterminate />
 			</Box>
 		);
 
-	if (isError) return <Text>Something went wrong...</Text>;
+	if (searchResultsError) return <Text>Something went wrong...</Text>;
 
-	if (data.articles.length === 0) {
+	if (searchResults.length === 0) {
 		return <Text mt={4}>No results found</Text>;
 	}
 
@@ -68,7 +75,7 @@ const SearchResults = ({ search }) => {
 			<Heading size="lg" mt={10}>
 				Search results for "{search}":
 			</Heading>
-			<News allNews={data.articles} />
+			<News allNews={searchResults} />
 		</Box>
 	);
 };

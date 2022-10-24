@@ -1,5 +1,6 @@
 import React from "react";
 import { Select } from "@chakra-ui/react";
+import { getDefaultCountry } from "../utils";
 
 const CountrySelect = ({ country, setCountry }) => {
 	const changeHandler = (e) => {

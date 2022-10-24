@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
 	Box,
 	CircularProgress,
@@ -7,20 +7,34 @@ import {
 	HStack,
 	Select,
 } from "@chakra-ui/react";
+import { useSelector, useDispatch } from "react-redux";
 
-import { useNewsByCountry } from "../api";
 import CountrySelect from "./CountrySelect";
 import News from "./News";
+import { getTopNews, setTopNewsAfterSorting } from "../store/newsSlice";
+import { getDefaultCountry } from "../utils";
 
-const defaultCountry = window.navigator.language.split("-")[1];
+const defaultCountry = getDefaultCountry();
 
 const TopNews = () => {
 	const [country, setCountry] = useState(defaultCountry);
 	const [sortBy, setSortBy] = useState("publishedAt");
-	const { data, isLoading, isError } = useNewsByCountry(country, sortBy);
+	const dispatch = useDispatch();
+
+	const { isTopNewsLoading, topNews, topNewsError } = useSelector(
+		(state) => state.news
+	);
+
+	useEffect(() => {
+		dispatch(getTopNews(country));
+	}, [country]);
+
+	useEffect(() => {
+		dispatch(setTopNewsAfterSorting({ sortBy }));
+	}, [sortBy]);
 
 	const Inner = () => {
-		if (isLoading) {
+		if (isTopNewsLoading) {
 			return (
 				<Box textAlign="center" mt={12}>
 					<CircularProgress isIndeterminate />
@@ -28,11 +42,11 @@ const TopNews = () => {
 			);
 		}
 
-		if (isError) {
-			return <Box textAlign="center">Error</Box>;
+		if (Boolean(topNewsError)) {
+			return <Box textAlign="center">Something went wrong 😠!</Box>;
 		}
 
-		if (data.length === 0) {
+		if (topNews.length === 0) {
 			return (
 				<Box textAlign="center" mt={10}>
 					There is nothing to see ☹️!
@@ -42,7 +56,7 @@ const TopNews = () => {
 
 		return (
 			<Box mt={10}>
-				<News allNews={data} />
+				<News allNews={topNews} />
 			</Box>
 		);
 	};

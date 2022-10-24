@@ -1,10 +1,18 @@
 import React from "react";
 import { Box, Text, Heading, Center, Stack, Flex } from "@chakra-ui/react";
 import { ViewOffIcon } from "@chakra-ui/icons";
+import { useDispatch } from "react-redux";
 
 import { getFormattedDate } from "../utils";
+import { hideNewsArticle } from "../store/newsSlice";
 
-const NewsItem = ({ news, onHide }) => {
+const NewsItem = ({ news }) => {
+	const dispatch = useDispatch();
+
+	function hideArticle() {
+		dispatch(hideNewsArticle(news.url));
+	}
+
 	return (
 		<Box position="relative">
 			<a href={news.url} rel="noreferrer noopener" target="_blank">
@@ -60,7 +68,7 @@ const NewsItem = ({ news, onHide }) => {
 				top="-3"
 				right="-3"
 				p="2"
-				onClick={onHide}
+				onClick={hideArticle}
 				bg="gray.500"
 				borderRadius="50%"
 				cursor="pointer"
