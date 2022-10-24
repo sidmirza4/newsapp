@@ -4,6 +4,12 @@ A simple news app to search for a news or to check top news by country.
 
 ![](preview.gif)
 
+## Important
+This repo consists of two main branches:  
+1. [main](https://github.com/sidmirza4/newsapp/tree/main)
+2. [redux](https://github.com/sidmirza4/newsapp/tree/main)  
+> In `redux` branch, Redux is used as a state management library.  
+
 ## Run the app locally
 
 - Clone the app locally using `git clone https://github.com/sidmirza4/newsapp.git`.
@@ -25,5 +31,5 @@ A simple news app to search for a news or to check top news by country.
 - The first tab is Top News, on page load top news are fetched based on the country the user is using the app from.
 - To filter the top news by country a drop down is created on the right side of the heading.
 - To sort the top news by date there is another dropdown, there was no support from the API to sort the top news by publish date, so I had to sort the top news on the client side.
-- For state management I used `react-query` and `useState`. I could have used `redux`, but that would introduce a lot of boilerplate code and would be an overkill for this simple project.
+- For state management I used `react-query` and `useState`.
 - To hide the a news article I added an icon button on top-right corner of every news article. On click of that button the article is removed from the local state. For this project I have added `onClick` on every `NewsItem` but the ideal solution would be to add the `onClick` on the container and take advantage of "Event Bubbling".
