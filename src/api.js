@@ -1,8 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 
 import axios from "./axios";
+import { getCurrentCountry } from "./utils";
 
-const defaultCountry = window.navigator.language.split("-")[1];
+const defaultCountry = getCurrentCountry();
 
 const getNewsByCountry = async (country = defaultCountry) => {
 	return axios.get(`top-headlines?country=${country}`).then((res) => res.data);

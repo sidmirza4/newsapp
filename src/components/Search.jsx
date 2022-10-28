@@ -48,8 +48,6 @@ const SearchResults = ({ search }) => {
 	if (!search) return null;
 	const { data, isLoading, isError } = useSearchResults(search);
 
-	console.log(data);
-
 	if (isLoading)
 		return (
 			<Box textAlign="center" mt={12}>

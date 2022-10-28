@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
 	Box,
 	CircularProgress,
@@ -11,41 +11,13 @@ import {
 import { useNewsByCountry } from "../api";
 import CountrySelect from "./CountrySelect";
 import News from "./News";
+import { getCurrentCountry } from "../utils";
 
-const defaultCountry = window.navigator.language.split("-")[1];
+const defaultCountry = getCurrentCountry();
 
 const TopNews = () => {
 	const [country, setCountry] = useState(defaultCountry);
 	const [sortBy, setSortBy] = useState("publishedAt");
-	const { data, isLoading, isError } = useNewsByCountry(country, sortBy);
-
-	const Inner = () => {
-		if (isLoading) {
-			return (
-				<Box textAlign="center" mt={12}>
-					<CircularProgress isIndeterminate />
-				</Box>
-			);
-		}
-
-		if (isError) {
-			return <Box textAlign="center">Error</Box>;
-		}
-
-		if (data.length === 0) {
-			return (
-				<Box textAlign="center" mt={10}>
-					There is nothing to see ☹️!
-				</Box>
-			);
-		}
-
-		return (
-			<Box mt={10}>
-				<News allNews={data} />
-			</Box>
-		);
-	};
 
 	return (
 		<Box id="top-news" mt={12}>
@@ -66,7 +38,37 @@ const TopNews = () => {
 					</Select>
 				</HStack>
 			</Flex>
-			<Inner />
+			<Inner country={country} sortBy={sortBy} />
+		</Box>
+	);
+};
+
+const Inner = ({ country, sortBy }) => {
+	const { data, isLoading, isError } = useNewsByCountry(country, sortBy);
+
+	if (isLoading) {
+		return (
+			<Box textAlign="center" mt={12}>
+				<CircularProgress isIndeterminate />
+			</Box>
+		);
+	}
+
+	if (isError) {
+		return <Box textAlign="center">Error</Box>;
+	}
+
+	if (data.length === 0) {
+		return (
+			<Box textAlign="center" mt={10}>
+				There is nothing to see ☹️!
+			</Box>
+		);
+	}
+
+	return (
+		<Box mt={10}>
+			<News allNews={data} />
 		</Box>
 	);
 };
