@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const base = "https://corsproxy.io/" + encodeURIComponent("https://newsapi.org/v2/");
+const base = "https://proxy.cors.sh/https://newsapi.org/v2/";
 
 const axiosInstance = axios.create({
 	baseURL: `${base}`,
